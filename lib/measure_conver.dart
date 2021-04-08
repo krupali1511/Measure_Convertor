@@ -18,11 +18,11 @@ class MeasureConvertorState extends State<MeasureConvertor> {
     double sizeY = MediaQuery.of(context).size.height;
     final TextStyle inputStyle = TextStyle(
       fontSize: 20,
-      color: Colors.blue[900],
+      color: Colors.black,
     );
     final TextStyle labelStyle = TextStyle(
       fontSize: 24,
-      color: Colors.grey[700],
+      color: Colors.black,
     );
 
     final spacer = Padding(padding: EdgeInsets.only(bottom: sizeY/40));
@@ -37,8 +37,10 @@ class MeasureConvertorState extends State<MeasureConvertor> {
       'ounces',
     ];
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Measures Converter'),
+      backgroundColor: Colors.white70,
+      appBar: AppBar(title: Text(
+        'Measure Convertor', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold,),),
+        backgroundColor: Colors.black87,
       ),
       body: Container(
         width: sizeX,
@@ -50,8 +52,14 @@ class MeasureConvertorState extends State<MeasureConvertor> {
             TextField(
               style: inputStyle,
               decoration: InputDecoration(
-                hintText: "Please insert the measure to be converted",
-              ),
+                     labelText: "Enter Measure to be Converted",
+                     labelStyle: TextStyle(color: Colors.black),
+                     fillColor: Colors.black,
+                     focusedBorder:OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.black, width: 2.0),
+                    borderRadius: BorderRadius.circular(25.0),
+                    ),
+                  ),
               onChanged: (text) {
                 setState(() {
                   _numberFrom = double.parse(text);
@@ -61,24 +69,45 @@ class MeasureConvertorState extends State<MeasureConvertor> {
             spacer,
             Text('From', style: labelStyle,),
             spacer,
-            DropdownButton(
-              isExpanded: true,
-              style: inputStyle,
-              value: _startMeasure,
-              items: _measures.map((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value, style: inputStyle,),
-                );
-              }).toList(),
-              onChanged: (value) {
-                onStartMeasureChanged(value);
-              },
+            DropdownButtonHideUnderline(
+            child: Container(
+            width: 400,
+            margin: EdgeInsets.only(left: 10.0, right: 10.0),
+            decoration: ShapeDecoration(
+            color: Colors.grey.shade300,
+            shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+            Radius.circular(10)))
+            ),
+                    child: DropdownButton(
+                      isExpanded: true,
+                      style: inputStyle,
+                      value: _startMeasure,
+                      items: _measures.map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value, style: inputStyle,),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        onStartMeasureChanged(value);
+                      },
+                    ),)
             ),
             spacer,
             Text('To', style: labelStyle,),
             spacer,
-            DropdownButton(
+        DropdownButtonHideUnderline(
+        child: Container(
+        width: 400,
+        margin: EdgeInsets.only(left: 10.0, right: 10.0),
+        decoration: ShapeDecoration(
+        color: Colors.grey.shade300,
+        shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+        Radius.circular(10)))
+        ),
+          child: DropdownButton(
               isExpanded: true,
               style: inputStyle,
               value: _convertedMeasure,
@@ -92,10 +121,27 @@ class MeasureConvertorState extends State<MeasureConvertor> {
                 onConvertedMeasureChanged(value);
               },
             ),
+        )),
             spacer,
-            RaisedButton(child:Text('Convert', style: inputStyle),
-              onPressed: ()=>convert(),),
+            SizedBox(height: 20,),
+            ButtonTheme(
+              buttonColor: Colors.black,
+              minWidth: 400.0,
+              child: RaisedButton(
+
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+
+                ),
+                elevation: 12,
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Text('Convert',style: TextStyle(color: Colors.white)),
+                ),
+                onPressed: ()=>convert(),
+              )),
             spacer,
+            SizedBox(height: 20,),
             Text(_resultMessage, style: labelStyle,)
           ],
         )),
@@ -131,5 +177,5 @@ class MeasureConvertorState extends State<MeasureConvertor> {
 
     });
   }
-
+  
 }
